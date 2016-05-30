@@ -1,0 +1,20 @@
+#!/usr/bin/expect -f
+
+#alias jump="ssh_logon_through_rebound_server.exp $username $rebound_server $target_server"
+set timeout 3
+
+set username [lindex $argv 0]
+set rebound_server [lindex $argv 1]
+set target_server [lindex $argv 2]
+
+spawn ssh $username@$rebound_server
+
+expect {
+    "ip"
+    {
+	send "$target_server\n"
+    }
+}
+
+expect eof
+exit
